@@ -12,4 +12,4 @@ before_install:
 
 script:
   - cd run
-  - ./Symmetric.groovy
+  - ./showcp.groovy
