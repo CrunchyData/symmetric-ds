@@ -3,7 +3,7 @@
 import groovy.sql.Sql
 import groovy.json.JsonSlurper
 
-def symmetricHost='localhost'
+def symmetricHost
 def symmetricPort=31415
 def postgresUser='postgres'
 def postgresPassword='pass'
@@ -220,10 +220,22 @@ def openRegistration() {
 }
 
 
+def String findDockerGateway(){
+	process = "docker inspect network bridge".execute()
+	def json = process.inputStream.withCloseable { inStream ->
+		new JsonSlurper().parse(inStream as InputStream)
+	}
+	return json[0].IPAM.Config[0].Gateway
+
+}
+
+
 startPostgres('primary', 5432, postgresPassword)
 println "primary started"
 startPostgres('secondary', 5433, postgresPassword)
 println "secondary started"
+
+symmetricHost = findDockerGateway()
 
 createUser(5432, postgresUser, postgresPassword, symmetricUser, symmetricPass)
 createDatabase(5432, postgresUser, postgresPassword, symmetricDatabase, symmetricUser)
@@ -233,6 +245,7 @@ createDatabase(5433, postgresUser, postgresPassword, symmetricDatabase, symmetri
 
 println dockerContainers()
 startSymmetric(1, curPath, 'sym1', 31415)
+
 
 while(getStatus(symmetricHost, symmetricPort)?.started != true) {
 	println "waiting for sym1"
@@ -259,6 +272,7 @@ while(getStatus(symmetricHost, 31416)?.started != true){
     sleep(1000)
 }
 
+java.net.Inet4Address.getAllByName('ubuntu')
 println "sym2 started"
 
 
