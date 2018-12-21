@@ -11,7 +11,7 @@ def symmetricUser='rep'
 def symmetricPass='foo'
 def symmetricDatabase='sales'
 
-def debug=1
+debug=1
 
 curPath = new File('.').getAbsolutePath()
 
@@ -45,7 +45,7 @@ def getStatus(String host, int port) {
       }
     } 
     catch(Exception ex){
-	if (debug) println ex
+		if (debug == 1) println ex
     }
 
     return null
@@ -66,7 +66,7 @@ def syncTriggers(String host, int port){
       return  (con.responseCode == 200)
     } 
     catch(Exception ex){
-	if (debug) println ex
+		if (debug == 1) println ex
     }
 
     return false
@@ -236,7 +236,7 @@ startSymmetric(1, curPath, 'sym1', 31415)
 while(getStatus(symmetricHost, symmetricPort)?.started != true) {
 	println "waiting for sym1"
 	sleep(1000)
-	if (true) {
+	if (debug == 1) {
 		println "docker logs sym1".execute().text
 	}
 
