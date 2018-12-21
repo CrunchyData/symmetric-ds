@@ -233,9 +233,13 @@ createDatabase(5433, postgresUser, postgresPassword, symmetricDatabase, symmetri
 println dockerContainers()
 startSymmetric(1, curPath, 'sym1', 31415)
 
-while(getStatus(symmetricHost, symmetricPort)?.started != true){
+while(getStatus(symmetricHost, symmetricPort)?.started != true) {
 	println "waiting for sym1"
-    sleep(1000)
+	sleep(1000)
+	if (debug) {
+		println "docker logs sym1".execute().text
+	}
+
 }
 
 println "sym1 started"
