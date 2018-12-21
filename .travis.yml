@@ -6,7 +6,7 @@ services:
 
 before_install:
   - ./.travis/install_groovy.sh
-  - docker pull postgresql:latest
+  - docker pull postgres:latest
   - docker pull jumpmind/symmetricds:latest
 
 script:
