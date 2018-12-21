@@ -130,6 +130,26 @@ def writePGPass(String postgresUser, String postgresPassword, int port1, int por
 	"chmod 0600 $homeDir/.pgpass".execute()
 }
 
+def writeEngine(int instance, String ipAddress, int expose, int registrationPort, int postgresPort){
+	def file = newFile("engines${instance}/sales2.properties")
+	file.write("""
+db.connection.properties=
+#auto.config.registration.svr.sql.script=sql/primary-2-primary-config.sql
+db.password=foo
+sync.url=http\\://${ipAddress}\\:${expose}/sync/sales2
+group.id=primary
+db.init.sql=
+registration.url=http\\://${ipAddress}\\:${registrationPort}/sync/sales2
+db.driver=org.postgresql.Driver
+db.user=rep
+engine.name=sales2
+external.id=sales2
+db.validation.query=select 1
+cluster.lock.enabled=false
+db.url=jdbc\\:postgresql\\://${ipAddress}:${postgresPort}/sales?protocolVersion\\=3&stringtype\\=unspecified&socketTimeout\\=300&tcpKeepAlive\\=true
+
+""")
+}
 /**
  *
  * @param port
@@ -236,6 +256,9 @@ startPostgres('secondary', 5433, postgresPassword)
 println "secondary started"
 
 symmetricHost = findDockerGateway()
+
+writeEngine(1,symmetricHost, 31415, 31415, 5432 )
+writeEngine(2, symmetricHost, 31416, 31415, 5433)
 
 createUser(5432, postgresUser, postgresPassword, symmetricUser, symmetricPass)
 createDatabase(5432, postgresUser, postgresPassword, symmetricDatabase, symmetricUser)
