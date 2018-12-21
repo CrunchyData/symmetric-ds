@@ -90,6 +90,7 @@ def dockerContainers() {
 def startSymmetric(int instance, String curPath, String name, int expose) {
     def output = """docker run -d -p $expose:31415 --name $name -v $curPath/engines$instance:/opt/symmetric-ds/engines 
 -v $curPath/conf$instance:/opt/symmetric-ds/conf -v $curPath/security$instance:/opt/symmetric-ds/security 0e5e0d538319""".execute()
+	println "Error ${output.errorStream.text}"
 }
 
 /**
