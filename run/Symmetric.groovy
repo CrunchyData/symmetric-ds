@@ -295,7 +295,6 @@ while(getStatus(symmetricHost, 31416)?.started != true){
     sleep(1000)
 }
 
-java.net.Inet4Address.getAllByName('ubuntu')
 println "sym2 started"
 
 
