@@ -236,7 +236,7 @@ startSymmetric(1, curPath, 'sym1', 31415)
 while(getStatus(symmetricHost, symmetricPort)?.started != true) {
 	println "waiting for sym1"
 	sleep(1000)
-	if (debug == 1) {
+	if (true) {
 		println "docker logs sym1".execute().text
 	}
 
