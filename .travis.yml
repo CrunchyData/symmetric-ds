@@ -10,4 +10,5 @@ before_install:
   - docker pull jumpmind/symmetricds:latest
 
 script:
-  - Symmetric.groovy
+  - cd run
+  - ./Symmetric.groovy
