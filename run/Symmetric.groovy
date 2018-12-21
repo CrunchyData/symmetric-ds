@@ -3,7 +3,7 @@
 import groovy.sql.Sql
 import groovy.json.JsonSlurper
 
-def symmetricHost='192.168.1.24'
+def symmetricHost='localhost'
 def symmetricPort=31415
 def postgresUser='postgres'
 def postgresPassword='pass'
@@ -115,7 +115,7 @@ def waitForPostgres(int port, int seconds, String user, String password){
 
 def startPostgres(String instance, int expose, String password){
     "docker run --name postgres-$instance -p $expose:5432 -e POSTGRES_PASSWORD=$password -d postgres".execute()
-	waitForPostgres(5432, 10, 'postgres', 'pass')
+	waitForPostgres(expose, 10, 'postgres', 'pass')
 }
 
 
