@@ -131,7 +131,7 @@ def writePGPass(String postgresUser, String postgresPassword, int port1, int por
 }
 
 def writeEngine(int instance, String ipAddress, int expose, int registrationPort, int postgresPort){
-	def file = newFile("engines${instance}/sales2.properties")
+	def file = new File("engines${instance}/sales2.properties")
 	file.write("""
 db.connection.properties=
 #auto.config.registration.svr.sql.script=sql/primary-2-primary-config.sql
